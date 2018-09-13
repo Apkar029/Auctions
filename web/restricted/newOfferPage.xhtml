@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <f:metadata>
+            <f:viewParam name="item_id" value="#{newOfferBean.id}" />
+            <f:event type="preRenderView" listener="#{newOfferBean.checkOffer()}"/>
+        </f:metadata>
+    </head>
+    <body>
+        <div>TODO write content</div>
+        <ui:composition template="/template/commonLayout.xhtml">
+            <ui:define name="content">
+                <div class="container-fluid">
+                    <h:form class="form-horizontal" enctype="multipart/form-data">
+                        <f:event listener="#{newOfferBean.validatePrices}" type="postValidate" />
+                        <f:event listener="#{newOfferBean.validateImage}" type="postValidate" />
+                        <div class="form-group">
+                            <label class="control-label" for="name">Name</label>
+                            <div class ="row">
+                                <div class="col-lg-4 col-xs-5 col-sm-5">
+                                    <h:inputText id="name" value="#{newOfferBean.name}" 
+                                                 class="form-control"
+                                                 required="true" 
+                                                 requiredMessage="Please enter a Name.">
+                                    </h:inputText>
+                                </div>
+                                <h:message class="text-danger" for="name"></h:message>
+                            </div>
+                            <label class="control-label" for="buy_price">Buy Price:</label>
+                            <div class ="row">
+                                <div class="col-lg-4 col-xs-5 col-sm-5">
+                                    <h:inputText onclick="this.select()" 
+                                                 id="buy_price"  class="form-control"
+                                                 value="#{newOfferBean.buy_price}"
+                                                 required="true"
+                                                 requiredMessage="Please enter a Buying price."
+                                                 converterMessage="Please enter digits only.">
+                                        <!--<f:validateLongRange minimum="1"/>-->
+                                    </h:inputText>
+                                </div>
+                                <h:message class="text-danger" for="buy_price"/>
+                            </div>
+                            <label class="control-label" for="first_bid">First Bid:</label>
+                            <div class ="row">
+                                <div class="col-lg-4 col-xs-5 col-sm-5">
+                                    <h:inputText onclick="this.select()" id="first_bid"  class="form-control"
+                                                 value="#{newOfferBean.first_bid}"
+                                                 required="true"
+                                                 requiredMessage="Please enter the First Bid price."
+                                                 converterMessage="Please enter digits only."
+                                                 >
+                                    </h:inputText>
+                                </div>
+                                <h:message class="text-danger" for="first_bid"/>
+                            </div>
+                            <label class="control-label " for="ends">Bidding ends at:</label>
+                            <script>
+                                $(document).ready(function () {
+                                    var defaultDate_;
+                                    if ('#{newOfferBean.ends}' == '') {
+                                        $(".datepicker").datetimepicker({
+                                            minDate: moment(),
+                                            format: 'DD-MM-YYYY HH:mm'
+                                        });
+                                    } else {
+                                        console.log('#{newOfferBean.ends}');
+                                        defaultDate_ = '#{newOfferBean.ends}';
+                                        var d = '#{newOfferBean.ends}'.split(' ');
+                                        var x = d[0].split('-');
+                                        var ends = x[2] + '-' + x[1] + '-' + x[0] + 'T' + d[1] + ':00';
+                                        console.log('#{newOfferBean.ends}');
+                                        console.log(ends);
+                                        $('.datepicker').datetimepicker({
+                                            useCurrent: false,
+                                            minDate: moment(), // moment(),
+                                            defaultDate: moment(defaultDate_, 'DD-MM-YYYY HH:mm'),
+                                            format: 'DD-MM-YYYY HH:mm'
+                                        });
+                                    }
+                                });
+                            </script>
+                            <div class ="row">
+                                <div class="col-lg-4 col-xs-5 col-sm-5">
+                                    <div class='input-group date datepicker' id='datetimepicker1'>
+                                        <h:inputText id="ends" class="form-control" 
+                                                     value="#{newOfferBean.ends}">
+                                            <f:validator class="" validatorId="validators.newOfferEndsValidator"/>
+                                        </h:inputText>
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <h:message styleClass="text-danger" for="ends"/>
+                            </div>
+                            <label class="control-label " for="location">Location:</label>
+                            <div class ="row">
+                                <div class="col-lg-4 col-xs-5 col-sm-5">
+                                    <h:inputText id="location" value="#{newOfferBean.location}" 
+                                                 class="form-control"
+                                                 required="true"
+                                                 requiredMessage="Please enter a Location."/>
+                                </div>
+                                <h:message class="text-danger" for="location"/>
+                            </div>
+                            <label class="control-label " for="categories">Categories:</label>
+                            <div class ="row">
+                                <div class="col-lg-4 col-xs-5 col-sm-5">
+                                    <input type="hidden" name="tags" placeholder="Tags" class="tm-input tm-input-04"/>
+
+                                    <h:selectOneMenu class="form-control" readonly="true" value="#{null}" style="background-color: white">
+                                        <f:selectItem itemDisabled="true" itemValue="#{null}" itemLabel="Select Categories" />
+                                        <f:selectItems value="#{newOfferBean.categories_}"/>
+                                    </h:selectOneMenu>
+                                    <h:inputHidden id="cat" value="true">
+                                        <f:validator validatorId="validators.newOfferCategoryValidator"/>
+                                    </h:inputHidden>
+                                </div>
+                                <h:message styleClass="text-danger" for="cat"/>
+                            </div>
+                            <script>
+                                function s() {
+                                    var str = "";
+                                    $("select option:selected").each(function () {
+                                        str += $(this).text() + " ";
+                                    });
+                                    jQuery(".tm-input.tm-input-04").tagsManager('pushTag', str);
+                                }
+                                jQuery(".tm-input").tagsManager();
+                                $("select")
+                                        .change(function () {
+                                            var str = "";
+                                            $("select option:selected").each(function () {
+                                                str += $(this).text() + " ";
+                                            });
+                                            jQuery(".tm-input.tm-input-04").tagsManager('pushTag', str);
+                                        })
+                                        .trigger("change");
+                                jQuery(".tm-input").tagsManager('empty');
+                            </script>
+                            <ui:repeat var="cat" value="#{newOfferBean.categories}">
+                                <script>
+                                    jQuery(".tm-input.tm-input-04").tagsManager('pushTag', '#{cat.category}');
+                                </script>
+                            </ui:repeat>
+                            <label class="control-label " for="description">Description:</label>
+                            <div class ="row">
+                                <div class="col-lg-4 col-xs-5 col-sm-5">
+                                    <h:inputTextarea 
+                                        id="description" 
+                                        value="#{newOfferBean.description}" 
+                                        class="form-control" rows="7"
+                                        style="resize: none;"
+                                        required="true"
+                                        requiredMessage="Please enter a description.">
+                                        <f:validateLength maximum="400" />
+                                    </h:inputTextarea>
+                                </div>
+                                <h:message style="display: block;" class="text-danger" for="description"/>
+                            </div>
+                            <label class="control-label " >Upload images</label>
+                            <div class ="row">
+                                <div class="col-lg-4 col-xs-5 col-sm-5">
+                                    <h:inputFile id="file" value="#{newOfferBean.file}"/>
+                                </div>
+                                <h:message class="text-danger" for="file"/>
+                            </div>
+                            <br/>
+                            <div class ="row">
+                                <div class="col-lg-4 col-xs-5 col-sm-5">
+                                    <div class="col-sm-6 container-full">
+                                        <h:commandButton  class="btn btn-block btn-success" 
+                                                          action="#{newOfferBean.saveOffer()}" 
+                                                          value="Save Offer"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <script>
+                                $(document).on('change', '.btn-file :file', function () {
+                                    console.log("change");
+                                    var input = $(this),
+                                            numFiles = input.get(0).files ? input.get(0).files.length : 1,
+                                            label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+                                    input.trigger('fileselect', [numFiles, label]);
+                                });
+                                $(document).ready(function () {
+                                    $('.btn-file :file').on('fileselect', function (event, numFiles, label) {
+                                        console.log("lala");
+                                        var input = $('#images');
+                                        log = numFiles > 1 ? numFiles + ' files selected' : label;
+                                        console.log(log);
+                                        $('#images').append(log + '\n');
+                                    });
+                                });
+                            </script>
+                            <br/>
+                            <div class ="row">
+                                <div class="col-lg-4 col-xs-5 col-sm-5">
+                                    <div class="col-sm-6 container-full">
+                                        <h:link onclick="history.go(-1);
+                                                return false;" class="btn btn-block btn-info">
+                                            Back
+                                        </h:link>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </h:form>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

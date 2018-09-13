@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <h:form id="formId">
+
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <div class="tab-content">
+                            <div id="bidPanel" class="tab-pane fade in active">
+                                <div class="modal-header">
+                                    <h4>Select the amount you want to bid.</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="input-group input-group ">
+                                        <h:inputText 
+                                            id="amount" 
+                                            class="form-control input-lg" 
+                                            value="${itemBean.amount}" 
+                                            />
+                                        <span class="input-group-btn">
+                                            <button type="button" 
+                                                    onmouseup="stopInterval()" 
+                                                    onmousedown="increaseLoop()" 
+                                                    class="btn btn-info btn-lg" id="up">
+                                                <i class="glyphicon glyphicon-menu-up"></i>
+                                            </button>
+                                        </span>
+                                        <span class="input-group-btn">
+                                            <button type="button" 
+                                                    onmouseup="stopInterval()" 
+                                                    onmousedown="decreaseLoop()" 
+                                                    onclick="decrease()" 
+                                                    class="btn btn-info btn-lg" id="down">
+                                                <i class="glyphicon glyphicon-menu-down"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                    <script>
+                                        function increase() {
+                                            var amount = parseFloat($('#formId\\:amount').val(), 10);
+                                            amount = isNaN(amount) ? 0 : amount;
+                                            amount = amount + 0.1;
+                                            $("#formId\\:amount").val(amount.toFixed(1));
+                                            return increase;
+                                        }
+                                        function decrease() {
+                                            var amount = parseFloat($('#formId\\:amount').val(), 10);
+                                            amount = isNaN(amount) ? 0 : amount;
+                                            if (amount > ${itemBean.item.currently} + 1) {
+                                                amount = amount - 0.1;
+                                                $("#formId\\:amount").val(amount.toFixed(1));
+                                            }
+                                            return decrease;
+                                        }
+
+                                        var t;
+
+                                        function increaseLoop() {
+                                            console.log("increaseLoop");
+                                            t = setInterval(increase(), 100);
+                                        }
+                                        function decreaseLoop() {
+                                            console.log("decreaseLoop");
+                                            t = setInterval(decrease(), 100);
+                                        }
+
+                                        function stopInterval() {
+                                            clearInterval(t);
+                                        }
+
+                                        function reload() {
+                                            var x = $('#formId\\:amount').val();
+                                            $('#confAmount').html(x);
+                                        }
+                                        $('#formId\\:amount').val('${itemBean.item.currently + 1}');
+                                    </script>
+                                    <br/>
+                                </div>
+                                <div class="modal-footer">
+                                    <a onclick="reload()" data-toggle="pill" href="#confPanel"
+                                       class="btn btn-success col-sm-2">Next</a>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            <div id="confPanel" class="tab-pane fade in">
+                                <div class="modal-header">
+                                    <h4>Are you sure you wont to bid for</h4>
+                                </div>
+                                <div class="modal-body">
+
+                                    <h4>
+                                        <span id="confMSG" class="text-danger">
+                                            <span id="confAmount"/>
+                                            ?
+                                        </span>
+                                    </h4>
+
+                                    <br/><br/>
+
+
+                                </div>
+                                <div class="modal-footer">
+                                    <a data-toggle="pill" href="#bidPanel"
+                                       class="btn btn-info col-sm-2">Back</a>
+                                    <h:commandButton class="btn btn-success col-sm-2" 
+                                                     action="#{itemBean.newBid()}"
+                                                     value="Confirm" >
+                                    </h:commandButton>
+                                    <button type="button" class="btn btn-default col-sm-offset-2" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <script>
+                $('#myModal').on('show.bs.modal', function () {
+                    $('.modal-body').css('height', $(window).height() * 0.1);
+                });
+            </script>
+        </h:form>
+    </h:body>
+</html>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      >
+    <head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <ui:composition>
+            <div class="row container-fluid ">
+                <h:graphicImage class="col-xs-4 col-sm-3 col-lg-2" value="#{empty item_image ?'/resources/images/screw.jpg':'/data/'.concat(item_image)}" 
+                                />
+                <div class="col-xs-8 col-sm-9 col-lg-10">
+                    <table class="table table-condensed">
+                        <tbody>
+                            <tr>
+                                <td>ITEM NAME:</td>
+                                <td>#{item_name}</td>
+                            </tr>
+                            <tr>
+                                <td>CURRENT PRICE:</td>
+                                <td>#{item_currently}</td>
+                            </tr>
+                            <tr>
+                                <td>ENDS IN:</td>
+                                <td>#{item_end}</td>
+                            </tr>
+                            <tr>
+                                <td>Status:</td>
+                                <td>#{item_status}</td>
+                            </tr>
+                            <h:panelGroup rendered="#{last_bid > 0}">
+                                <tr>
+                                    <td>MY LAST BID:</td>
+                                    <td>#{last_bid}</td>
+                                </tr>
+                            </h:panelGroup>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </ui:composition>
+    </body>
+</html>

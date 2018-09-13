@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core" >
+    <head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{adminBean.findUsers()}"/>
+        </f:metadata>
+    </head>
+    <body>
+        <ui:composition template="/template/commonLayout.xhtml">
+            <ui:define name="content">
+                <div>
+                    <h:dataTable class="table table-hover" value="#{adminBean.users}" var="userX" >
+                        <h:column>
+                            <f:facet name="header" >
+                                <h:outputText value="Username"/>
+                            </f:facet>    
+                            <h:outputText value="#{userX.username}" />
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header" >
+                                <h:outputText value="Phone Number"/>
+                            </f:facet>    
+                            <h:outputText value="#{userX.phonenum}" />
+                        </h:column>	
+                        <h:column>
+                            <f:facet name="header" >
+                                <h:outputText value="Email"/>
+                            </f:facet>    
+                            <h:outputText value="#{userX.email}" />
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header" >
+                                <h:outputText value="Status"/>
+                            </f:facet>    
+                            <h:outputText class="text-danger" rendered="#{userX.status=='PENDING'}" value="#{userX.status}"/>
+                            <h:outputText class="text-success" rendered="#{userX.status=='ACTIVE'}" value="#{userX.status}"/>
+                        </h:column>	
+                        <h:column id="xid" class="container-fluid">
+                            <div>
+                                <h:link outcome="userInfoAdmin" 
+                                        class="exdetails btn btn-info form-control">
+                                    View Details
+                                    <i class="glyphicon glyphicon-cog"></i>
+
+                                    <f:param name="user_id" value="#{userX.id}" />
+                                </h:link>
+                            </div>
+                        </h:column>	
+                    </h:dataTable>
+                </div>
+                <script>
+                </script>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

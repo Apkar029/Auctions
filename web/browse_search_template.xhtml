@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <ui:composition>
+            <div class="row">
+                <h:form>
+                    <div class="navbar navbar-default">
+                        <ul class="nav nav-justified">
+                            <ui:repeat var="category" value="#{browseBean.fiveCategories}">
+                                <li>
+                                    <h:link style="color: black" outcome="/browse.xhtml">
+                                        #{category}
+                                        <f:param name="category" value="#{category}"/>
+                                    </h:link>
+                                </li>
+                            </ui:repeat>
+                            <li>
+                                <a  
+                                    class="dropdown-toggle"
+                                    data-toggle="dropdown"
+                                    href="#">
+                                    More
+                                    <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <ui:repeat var="category" value="#{browseBean.restCategories}">
+                                        <li>
+                                            <h:link outcome="/browse.xhtml">
+                                                #{category}
+                                                <f:param name="category" value="#{category}"/>
+                                            </h:link>
+                                        </li>
+                                    </ui:repeat>
+                                </ul>
+                            </li>
+
+                        </ul>
+
+                    </div>
+                </h:form>
+            </div>
+            <div class="row">
+                <form action="search.xhtml">
+                    <div class="input-group input-group-lg">
+                        <div class="form-group has-feedback">
+                            <input type="text" name="query" class="form-control input-lg"/>
+                            <i class="glyphicon glyphicon-search form-control-feedback"/>
+                        </div>
+                        <span class="input-group-btn">
+                            <input type="submit" value="Search" class="btn btn-default btn-lg"/>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </ui:composition>
+    </body>
+</html>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      >
+
+    <h:head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <ui:composition>
+            <f:event type="preRenderView" listener="#{userProfileBean.init(user_id)}"/>
+            <h:graphicImage class="img-responsive" library="images" name="screw.jpg" 
+                            />
+            <table class="table table-bordered table-hover">
+                <tbody>
+                    <tr>
+                        <td>Username:</td>
+                        <td>#{userProfileBean.username}</td>
+                    </tr>
+                    <tr>
+                        <td>Name:</td>
+                        <td>#{userProfileBean.name}</td>
+                    </tr>
+                    <tr>
+                        <td>Surname:</td>
+                        <td>#{userProfileBean.surname}</td>
+                    </tr>
+                    <tr>
+                        <td>Email:</td>
+                        <td>#{userProfileBean.email}</td>
+                    </tr>
+                    <tr>
+                        <td>Phone Number:</td>
+                        <td>#{userProfileBean.phonenum}</td>
+                    </tr>
+                    <tr>
+                        <td>Country:</td>
+                        <td>#{userProfileBean.country}</td>
+                    </tr>
+                    <tr>
+                        <td>City:</td>
+                        <td>#{userProfileBean.city}</td>
+                    </tr>
+                    <tr>
+                        <td>Address:</td>
+                        <td>#{userProfileBean.address}</td>
+                    </tr>
+                    <tr>
+                        <td>Status:</td>
+                        <td><h:outputText 
+                                class="text-danger" 
+                                value="#{userProfileBean.status}"
+                                rendered="#{userProfileBean.status=='PENDING'}" 
+                                />
+                            <h:outputText class="text-success" rendered="#{userProfileBean.status=='ACTIVE'}" value="#{userProfileBean.status}"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </ui:composition>>
+    </h:body>
+</html>

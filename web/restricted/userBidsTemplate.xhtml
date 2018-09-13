@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      >
+    <head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <ui:composition>
+            <div class="tab-content">
+                <div id="active2" class="tab-pane fade in active">
+                    <ui:repeat var="item" value="#{userBidsBean.activeItems}">
+                        <h:link outcome="/itemPage.xhtml"
+                                styleClass="list-group-item container-full"
+                                style="margin-bottom: 1em;">      
+                            <ui:include src="/ItemSnippetTemplate.xhtml">
+                                <ui:param name="item_id" value="#{item.id}"/>
+                                <ui:param name="item_name" value="#{item.name}"/>
+                                <ui:param name="item_currently" value="#{item.currently}"/>
+                                <ui:param name="item_end" value="#{item._getForamtedEnd()}"/>
+                                <ui:param name="item_status" value="#{item.status}"/>
+                                <ui:param name="item_image" value="#{item.image.image}"/>
+                                <ui:param name="last_bid" value="#{userBidsBean.myLastBid(item.id)}"/>
+                            </ui:include>
+                            <f:param name="item_id" value="#{item.id}" />
+                        </h:link>
+                    </ui:repeat>
+                </div>
+                <div id="expired2" class="tab-pane fade">
+                    <ui:repeat var="item" value="#{userBidsBean.expiredItems}">
+                        <h:link outcome="/itemPage.xhtml"
+                                styleClass="list-group-item container-full"
+                                style="margin-bottom: 1em;">      
+                            <ui:include src="/ItemSnippetTemplate.xhtml">
+                                <ui:param name="item_id" value="#{item.id}"/>
+                                <ui:param name="item_name" value="#{item.name}"/>
+                                <ui:param name="item_currently" value="#{item.currently}"/>
+                                <ui:param name="item_end" value="#{item._getForamtedEnd()}"/>
+                                <ui:param name="item_status" value="#{item.status}"/>
+                                <ui:param name="item_image" value="#{item.image.image}"/>
+                                <ui:param name="last_bid" value="#{0}"/>
+                            </ui:include>
+                            <f:param name="item_id" value="#{item.id}" />
+                        </h:link>
+                    </ui:repeat>
+                </div>
+            </div>
+        </ui:composition>
+    </body>
+</html>
